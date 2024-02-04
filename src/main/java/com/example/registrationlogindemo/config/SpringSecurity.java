@@ -29,6 +29,12 @@ public class SpringSecurity {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/register/**").permitAll()
+                                .requestMatchers("/inicio").authenticated()
+                                .requestMatchers("/post/add").authenticated()
+                                .requestMatchers("/post/detalle/**").permitAll()
+                                .requestMatchers("/post/like/**").permitAll()
+                                .requestMatchers("/post/comentarios/**").permitAll()
+                                .requestMatchers("/post/addComentario").permitAll()
                                 .requestMatchers("/index").permitAll()
                                 .requestMatchers("/users").hasRole("ADMIN")
                 ).formLogin(
