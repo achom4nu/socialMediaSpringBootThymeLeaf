@@ -29,6 +29,7 @@ public class SpringSecurity {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/register/**").permitAll()
+                                .requestMatchers("/files/**").permitAll()
                                 .requestMatchers("/inicio").authenticated()
                                 .requestMatchers("/post/add").authenticated()
                                 .requestMatchers("/post/detalle/**").permitAll()
@@ -41,7 +42,7 @@ public class SpringSecurity {
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/users")
+                                .defaultSuccessUrl("/inicio")
                                 .permitAll()
                 ).logout(
                         logout -> logout

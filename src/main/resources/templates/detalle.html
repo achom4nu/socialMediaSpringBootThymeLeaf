@@ -13,7 +13,7 @@
 <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; margin-left: 20px; margin-right: 20px">
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-            <a href="/" class="nav-link active" aria-current="page">
+            <a href="/inicio" class="nav-link active" aria-current="page">
                 <img src="https://www.systemuicons.com/images/icons/home_door.svg"/>
                 <span style="color: black">Home</span>
             </a>
@@ -25,7 +25,7 @@
             </a>
         </li>
         <li>
-            <a href="#" class="nav-link text-white">
+            <a href="/perfil" class="nav-link text-white">
                 <img src="https://www.systemuicons.com/images/icons/user_male.svg"/>
                 <span style="color: black">Perfil</span>
             </a>
@@ -39,13 +39,14 @@
 <div class="card" style="margin-top: 15px">
         <div class="card-body">
             <span>
-                 <h5 style="display: inline-block; font-size: x-large" class="card-title" th:text="${post.titulo}"></h5> - @<i th:text="${post.usuario.name}"></i>
+                 <h5 style="display: inline-block; font-size: x-large" class="card-title" th:text="${post.titulo}"></h5> - @<i th:text="${nombreUsuario}"></i>
                  <img src="https://cdn.icon-icons.com/icons2/2760/PNG/512/profile_icon_176363.png" style="width: 60px; float: right"/>
             </span>
             <p class="card-text" style="font-size: large" th:text="${post.contenido}"></p>
             <p class="card-text"><small class="text-body-secondary" th:text="${post.fecha}"></small></p>
+            <img th:if="${post.imagen} != null" th:src="${post.imagen}" class="card-img-bottom" alt="imagen">
             <div style="display: flex; justify-content: space-evenly; float: bottom">
-                <a><img src="https://www.systemuicons.com/images/icons/chat_add.svg"/></a>
+                <a th:href="@{'/post/comentarios/' + ${post.id}}"><img src="https://www.systemuicons.com/images/icons/chat_add.svg"/></a>
                 <a><img src="https://www.systemuicons.com/images/icons/heart.svg"/></a>
             </div>
         </div>

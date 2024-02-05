@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Setter
@@ -22,7 +23,11 @@ public class Comentario {
     private String contenido;
     private String titulo;
     private String imagen;
-    private LocalDate fecha;
+    private LocalDateTime fecha;
+    @PrePersist
+    protected void onCreate() {
+        this.fecha = LocalDateTime.now();
+    }
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private User usuario;

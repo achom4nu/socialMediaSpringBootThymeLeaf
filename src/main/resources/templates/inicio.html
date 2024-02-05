@@ -36,7 +36,7 @@
 
 <!--   CREAR POST     -->
 
-<div style="width: 400px; margin-left: 20px; margin-right: 20px: border: 1px solid grey">
+<div style="width: 400px; margin-left: 20px; margin-right: 20px: border: 2px solid gray">
     <!--th:if="${#authorization.expression('hasRole(\'EDITOR\')')} || ${#authorization.expression('hasRole(\'ROLE_ADMIN\')')} "-->
     <h1 class="mb-4">Añadir Nuevo Post</h1>
 
@@ -56,32 +56,37 @@
 
         <!--<input type="hidden" id="usuario" name="usuario" th:value="*{usuario}"/>-->
 
-        <!-- Campo Imagen
+        <!-- Campo Imagen -->
         <div class="mb-3">
             <label for="imagen" class="form-label">Imagen</label>
-            <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*"/>
-        </div>-->
+            <input type="file" class="form-control" id="imagen" name="file" accept="image/*"/> <!-- El atributo nombre es de donde pilla el controlador la imagen -->
+        </div>
 
         <!-- Botón de Enviar -->
         <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
 
+    <!-- LISTADO DE POSTS -->
 
     <div th:if="${listadoPosts != null and not #lists.isEmpty(listadoPosts)}" class="card" th:each="post:${listadoPosts}" style="margin-top: 10px; margin-bottom: 10px">
         <a th:href="@{'/post/detalle/' + ${post.id}}" style="text-decoration: none; color: black">
         <div class="card-body">
             <span>
-                 <h5 style="display: inline-block;" class="card-title" th:text="${post.titulo}"></h5><!-- - @<i th:text="${post.usuario.getName()}"></i>-->
+                 <h5 style="display: inline-block;" class="card-title" th:text="${post.titulo}"></h5> - @<i th:text="${nombreUsuario}"></i>
                  <img src="https://cdn.icon-icons.com/icons2/2760/PNG/512/profile_icon_176363.png" style="width: 40px; float: right"/>
             </span>
             <p class="card-text" th:text="${post.contenido}"></p>
             <p class="card-text"><small class="text-body-secondary" th:text="${post.fecha}"></small></p>
+            <img th:if="${post.imagen} != null" th:src="${post.imagen}" class="card-img-bottom" alt="imagen">
             <div style="display: flex; justify-content: space-evenly">
-                <a style="text-decoration: none" th:href="@{'/post/comentarios/' + ${post.id}}"><img src="https://www.systemuicons.com/images/icons/chat_add.svg"/></a>
+                <div>
+                    <a style="text-decoration: none" th:href="@{'/post/comentarios/' + ${post.id}}"><img src="https://www.systemuicons.com/images/icons/chat_add.svg"/></a>
+                    <h6 style="display: inline-block; float: right; align-items: center" th:text="${listadoComentarios}"></h6>
+                </div>
                 <a style="text-decoration: none"><img src="https://www.systemuicons.com/images/icons/heart.svg"/><h6 style="display: inline-block"></h6></a>
             </div>
         </div>
-        <!--<img src="th:text=${post.imagen}" class="card-img-bottom" alt="imagen">-->
+
         </a>
     </div>
     <div th:unless="${listadoPosts != null and not #lists.isEmpty(listadoPosts)}">
@@ -100,16 +105,15 @@
    BARRA DE BÚSQUEDA  -->
 
 <div class="container" style="width: fit-content; margin-left: 20px; margin-right: 20px">
-    <div>
         <form th:action="@{/buscar}" method="post">
             <input style="display: inline-block" type="search" class="form-control" placeholder="Buscar..." aria-label="Search">
             <button style="float: right" type="submit"><img src="https://www.systemuicons.com/images/icons/search.svg"/></button>
         </form>
         <!--   VER POST DE LOS USUARIOS  -->
+
         <div class="container">
             <h2>Usuarios a seguir</h2>
         </div>
-    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
