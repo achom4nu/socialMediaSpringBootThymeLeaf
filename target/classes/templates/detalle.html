@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body style="display:flex; justify-content: space-evenly">
+
+<!--   BARRA LATERAL DE NAVEGACIÓN  -->
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; margin-left: 20px; margin-right: 20px">
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a href="/inicio" class="nav-link active" aria-current="page">
+                <img src="https://www.systemuicons.com/images/icons/home_door.svg"/>
+                <span style="color: black">Home</span>
+            </a>
+        </li>
+        <li>
+            <a href="/tendencias" class="nav-link text-white">
+                <img src="https://www.systemuicons.com/images/icons/flame.svg"/>
+                <span style="color: black">Tendencias</span>
+            </a>
+        </li>
+        <li>
+            <a href="/perfil" class="nav-link text-white">
+                <img src="https://www.systemuicons.com/images/icons/user_male.svg"/>
+                <span style="color: black">Perfil</span>
+            </a>
+        </li>
+    </ul>
+    <hr>
+</div>
+
+<!--   POST     -->
+<div>
+<div class="card" style="margin-top: 15px">
+        <div class="card-body">
+            <span>
+                 <h5 style="display: inline-block; font-size: x-large" class="card-title" th:text="${post.titulo}"></h5> - @<i th:text="${nombreUsuario}"></i>
+                 <img src="https://cdn.icon-icons.com/icons2/2760/PNG/512/profile_icon_176363.png" style="width: 60px; float: right"/>
+            </span>
+            <p class="card-text" style="font-size: large" th:text="${post.contenido}"></p>
+            <p class="card-text"><small class="text-body-secondary" th:text="${post.fecha}"></small></p>
+            <img th:if="${post.imagen} != null" th:src="${post.imagen}" class="card-img-bottom" alt="imagen">
+            <div style="display: flex; justify-content: space-evenly; float: bottom">
+                <a th:href="@{'/post/comentarios/' + ${post.id}}"><img src="https://www.systemuicons.com/images/icons/chat_add.svg"/></a>
+                <a><img src="https://www.systemuicons.com/images/icons/heart.svg"/></a>
+            </div>
+        </div>
+        <!--<img src="th:text=${post.imagen}" class="card-img-bottom" alt="imagen">-->
+
+</div>
+<!--   LISTADO COMENTARIOS DEL POST     -->
+
+<div th:if="${listadoComentarios != null and not #lists.isEmpty(listadoComentarios)}" style="width: 400px; margin-left: 20px; margin-right: 20px">
+    <!--th:if="${#authorization.expression('hasRole(\'EDITOR\')')} || ${#authorization.expression('hasRole(\'ROLE_ADMIN\')')} "-->
+    <div class="card" th:each="comentario:${listadoComentarios}" style="margin-top: 10px; margin-bottom: 10px">
+        <div class="card-body">
+            <span>
+                 <h5 style="display: inline-block;" class="card-title" th:text="${comentario.titulo}"></h5> - @<i th:text="${comentario.usuario.name}"></i>
+                 <img src="https://cdn.icon-icons.com/icons2/2760/PNG/512/profile_icon_176363.png" style="width: 40px; float: right"/>
+            </span>
+            <p class="card-text" th:text="${comentario.contenido}"></p>
+            <p class="card-text"><small class="text-body-secondary" th:text="${comentario.fecha}"></small></p>
+        </div>
+        <!--<img src="th:text=${post.imagen}" class="card-img-bottom" alt="imagen">-->
+    </div>
+</div>
+<div th:unless="${listadoComentarios != null and not #lists.isEmpty(listadoComentarios)}">
+    <p class="card-text">Ningún comentario... ¡Se el primero en comentar!</p>
+</div>
+</div>
+<!--
+<div th:unless="${#authorization.expression('hasRole(\'EDITOR\')')} || ${#authorization.expression('hasRole(\'ROLE_ADMIN\')')} ">
+    <div>
+        <h2>Tienes que tener el rol de Editor para poder escribir un comentario</h2>
+    </div>
+</div>
+
+
+   BARRA DE BÚSQUEDA  -->
+
+<div class="container" style="width: fit-content; margin-left: 20px; margin-right: 20px">
+    <div>
+        <form th:action="@{/buscar}" method="post">
+            <input style="display: inline-block" type="search" class="form-control" placeholder="Buscar..." aria-label="Search">
+            <button style="float: right" type="submit"><img src="https://www.systemuicons.com/images/icons/search.svg"/></button>
+        </form>
+        <!--   VER POST DE LOS USUARIOS  -->
+        <div class="container">
+            <h2>Usuarios a seguir</h2>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+
+</body>
+</html>
