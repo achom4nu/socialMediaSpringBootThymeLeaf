@@ -23,5 +23,8 @@ public class PostServiceImpl {
     public void deleteById(long id){
         postRepository.deleteById(id);
     }
+    public List<Post> findPostByUserId(long id){
+        return postRepository.findPostByUserId(id);
+    }
 
 }

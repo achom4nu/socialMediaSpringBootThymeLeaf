@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -21,26 +22,29 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(columnDefinition = "text")
     private String contenido;
+
     private String titulo;
+
     private String imagen;
+
     private LocalDateTime fecha;
+
+    private Long numberOfComments;
     @PrePersist
     protected void onCreate() {
         this.fecha = LocalDateTime.now();
     }
     //@Column(columnDefinition = "INT DEFAULT 0")
     //private List<Like> likes;
+
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private User usuario;
-    /*public void addLike(Like like) {
-        likes.add(like);
-        like.setPost(this);
-    }
-    public void removeLike(Like like) {
-        likes.remove(like);
-        like.setPost(null);
-    }*/
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "comentarios_post")
+    private List<Comentario> comentarios = new ArrayList<>() ;
 }

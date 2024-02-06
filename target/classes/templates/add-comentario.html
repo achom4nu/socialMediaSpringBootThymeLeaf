@@ -14,6 +14,7 @@
             z-index: 1;
             width: 40%;
             height: fit-content;
+            border-radius: 10px;
             opacity: 1.0;
             padding: 20px;
             margin: auto;
@@ -38,7 +39,7 @@
 </head>
 <body style="background-color: #f0f0f0;">
 <div class="background-content">
-    <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; margin-left: 20px; margin-right: 20px">
+    <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; height: 500px; margin-left: 20px; margin-right: 20px">
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
                 <a href="/inicio" class="nav-link active" aria-current="page">
@@ -60,6 +61,7 @@
             </li>
         </ul>
         <hr>
+        <a href="/logout" class="btn btn-danger">Cerrar sesión</a>
     </div>
 
     <!--   CREAR POST     -->
@@ -140,6 +142,7 @@
         </div>
     </div>
 </div>
+
 <div class="main-content">
     <!-- BOTON DE CERRAR -->
     <div>
@@ -150,29 +153,27 @@
 
     <!--  POST  -->
 
-    <div>
+    <div style="display: flex; flex-direction: column; align-items: center">
         <div class="card" style="margin-top: 15px">
             <div class="card-body">
             <span>
-                 <h5 style="display: inline-block; font-size: x-large" class="card-title" th:text="${post.titulo}"></h5> - @<i
-                    th:text="${nombreUsuario}"></i>
+                 <h5 style="display: inline-block; font-size: x-large" class="card-title" th:text="${post.titulo}"></h5> - @<i th:text="${nombreUsuario}"></i>
                  <img src="https://cdn.icon-icons.com/icons2/2760/PNG/512/profile_icon_176363.png"
                       style="width: 60px; float: right"/>
             </span>
                 <p class="card-text" style="font-size: large" th:text="${post.contenido}"></p>
                 <p class="card-text"><small class="text-body-secondary" th:text="${post.fecha}"></small></p>
-                <div style="display: flex; justify-content: space-evenly; float: bottom">
+                <img th:if="${post.imagen} != null" th:src="${post.imagen}" class="card-img-bottom" alt="imagen">
+                <!--<div style="display: flex; justify-content: space-evenly; float: bottom">
                     <a><img src="https://www.systemuicons.com/images/icons/chat_add.svg"/></a>
                     <a><img src="https://www.systemuicons.com/images/icons/heart.svg"/></a>
-                </div>
+                </div>-->
             </div>
-            <!--<img src="th:text=${post.imagen}" class="card-img-bottom" alt="imagen">-->
-
         </div>
 
         <!--   CREAR COMENTARIO     -->
 
-        <div style="width: 400px; margin-left: 20px; margin-right: 20px: border: 2px dashed black">
+        <div style="width: 400px; margin-left: 20px; margin-right: 20px; border: 2px solid #F6F8FA; background-color: #F6F8FA; border-radius: 4px ">
             <!--th:if="${#authorization.expression('hasRole(\'EDITOR\')')} || ${#authorization.expression('hasRole(\'ROLE_ADMIN\')')} "-->
             <h4 style="text-align: center">Añadir comentario</h4>
             <form th:action="@{/post/addComentario}" th:object="${comentario}" th:method="post"
@@ -191,13 +192,8 @@
                               required></textarea>
                 </div>
 
-                <!--<input type="hidden" id="usuario" name="usuario" th:value="*{usuario}"/>-->
-
-                <!-- Campo Imagen
-                <div class="mb-3">
-                    <label for="imagen" class="form-label">Imagen</label>
-                    <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*"/>
-                </div>-->
+                <input type="hidden" name="user" id="user" th:value="${usuario.id}"/>
+                <input type="hidden" id="post" name="post" th:value="${post.id}"/>
 
                 <!-- Botón de Enviar -->
                 <button type="submit" class="btn btn-primary">Enviar</button>

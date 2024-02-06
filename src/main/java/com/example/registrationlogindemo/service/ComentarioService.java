@@ -13,5 +13,6 @@ public interface ComentarioService {
     List<Comentario> findAll();
     void deleteById(long id);
     List<Comentario> obtenerComentariosPorPostId(long id);
+    List<Comentario> findComentariosByUsuario(long id);
 
 }

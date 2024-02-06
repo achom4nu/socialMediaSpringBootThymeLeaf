@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Modificar</title>
+    <!-- Agrega el enlace al archivo CSS de Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"></head>
+<body style="display: flex; justify-content: center">
+
+<div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#person-vcard"/></svg>
+        <span class="fs-4">Pandel de Admin</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a href="/admin/inicio" class="nav-link active" aria-current="page">
+                <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"/></svg>
+                <h5>Inicio</h5>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/comentarios" class="nav-link text-white">
+                <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#chat-left"/></svg>
+                <h5>Admin - Comentario</h5>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/posts" class="nav-link text-white">
+                <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#postcard-heart"/></svg>
+                <h5>Admin - Post</h5>
+            </a>
+        </li>
+        <li>
+            <a href="/inicio" class="nav-link text-white">
+                <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#postcard-heart"/></svg>
+                <h5 class="btn btn-warning">Volver al inicio</h5>
+            </a>
+        </li>
+    </ul>
+    <hr>
+</div>
+
+<div class="container mt-4">
+    <h1>Modificar <strong th:value="${objeto.titulo}"></strong></h1>
+    <form th:object="${objeto}" th:action="${tipo == 'post' ? '/guardar-post' : '/guardar-comentario'}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-group">
+            <label for="titulo">Título:</label>
+            <input type="text" class="form-control" id="titulo" th:field="*{titulo}" />
+        </div>
+
+        <div class="form-group">
+            <label for="contenido">Contenido:</label>
+            <textarea class="form-control" id="contenido" th:field="*{contenido}"></textarea>
+        </div>
+
+        <!-- Agrega campos adicionales según la entidad (imagen en el caso de Post) -->
+        <!-- Ejemplo para el campo de imagen de Post -->
+        <div class="form-group" th:if="${tipo == 'post'}">
+            <label for="imagen">Imagen:</label>
+            <input type="file" class="form-control" id="imagen" name="file" accept="image/*"/>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+</div>
+
+<!-- Agrega el enlace al archivo JavaScript de Bootstrap y a la biblioteca jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+</html>

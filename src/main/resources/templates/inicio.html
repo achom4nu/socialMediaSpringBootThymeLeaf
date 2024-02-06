@@ -10,7 +10,7 @@
 <body style="display:flex; justify-content: space-evenly">
 
 <!--   BARRA LATERAL DE NAVEGACIÓN  -->
-<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; margin-left: 20px; margin-right: 20px">
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; height: 500px; margin-left: 20px; margin-right: 20px">
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
             <a href="/inicio" class="nav-link active" aria-current="page">
@@ -32,15 +32,16 @@
         </li>
     </ul>
     <hr>
+    <a href="/logout" class="btn btn-danger">Cerrar sesión</a>
 </div>
 
 <!--   CREAR POST     -->
 
-<div style="width: 400px; margin-left: 20px; margin-right: 20px: border: 2px solid gray">
+<div style="width: 400px; margin-left: 20px; margin-right: 20px;">
     <!--th:if="${#authorization.expression('hasRole(\'EDITOR\')')} || ${#authorization.expression('hasRole(\'ROLE_ADMIN\')')} "-->
     <h1 class="mb-4">Añadir Nuevo Post</h1>
 
-    <form th:action="@{/post/add}" th:object="${post}" th:method="post" enctype="multipart/form-data">
+    <form th:action="@{/post/add}" th:object="${post}" th:method="post"  >
         <!--<input type="hidden" th:field="*{id}"/>-->
         <!-- Campo Nombre -->
         <div class="mb-3">
@@ -62,6 +63,7 @@
             <input type="file" class="form-control" id="imagen" name="file" accept="image/*"/> <!-- El atributo nombre es de donde pilla el controlador la imagen -->
         </div>
 
+        <input type="hidden" name="user" id="user" th:value="${usuario.id}"/>
         <!-- Botón de Enviar -->
         <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
@@ -104,15 +106,23 @@
 
    BARRA DE BÚSQUEDA  -->
 
-<div class="container" style="width: fit-content; margin-left: 20px; margin-right: 20px">
-        <form th:action="@{/buscar}" method="post">
+<div class="container" style="width: 350px; margin-left: 20px; margin-right: 20px">
+    <div style="display: flex; justify-content: flex-start">
+        <form th:action="@{/buscar}" method="post" style="display: inline-block">
             <input style="display: inline-block" type="search" class="form-control" placeholder="Buscar..." aria-label="Search">
-            <button style="float: right" type="submit"><img src="https://www.systemuicons.com/images/icons/search.svg"/></button>
         </form>
+        <button style="float: right" class="btn bt-info" type="submit"><img src="https://www.systemuicons.com/images/icons/search.svg"/></button>
+    </div>
         <!--   VER POST DE LOS USUARIOS  -->
 
-        <div class="container">
-            <h2>Usuarios a seguir</h2>
+        <div class="container" style="padding-left: 0">
+            <div class="card">
+                <div class="card-body" th:each="usuario:${listaUsuarios}">
+                    <img src="https://cdn.icon-icons.com/icons2/2760/PNG/512/profile_icon_176363.png" style="width: 30px; float: left"/>
+                    - @<i th:text="${usuario.name}"></i><!-- Cgoer el firstname del UserDto -->
+                    <a th:href="@{'/perfil/' + ${usuario.id}}" style="float: right;" class="btn btn-dark">Ver perfil</a>
+                </div>
+            </div>
         </div>
 </div>
 

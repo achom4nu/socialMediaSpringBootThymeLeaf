@@ -10,7 +10,7 @@
 <body style="display:flex; justify-content: space-evenly">
 
 <!--   BARRA LATERAL DE NAVEGACIÓN  -->
-<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; margin-left: 20px; margin-right: 20px">
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; height: 500px; margin-left: 20px; margin-right: 20px">
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
             <a href="/inicio" class="nav-link active" aria-current="page">
@@ -32,10 +32,11 @@
         </li>
     </ul>
     <hr>
+    <a href="/logout" class="btn btn-danger">Cerrar sesión</a>
 </div>
 
 <!--   POST     -->
-<div>
+<div style="display: flex; flex-direction: column; align-items: center;">
 <div class="card" style="margin-top: 15px">
         <div class="card-body">
             <span>
@@ -55,23 +56,21 @@
 </div>
 <!--   LISTADO COMENTARIOS DEL POST     -->
 
-<div th:if="${listadoComentarios != null and not #lists.isEmpty(listadoComentarios)}" style="width: 400px; margin-left: 20px; margin-right: 20px">
+<div style="width: 400px; margin-left: 20px; margin-right: 20px">
     <!--th:if="${#authorization.expression('hasRole(\'EDITOR\')')} || ${#authorization.expression('hasRole(\'ROLE_ADMIN\')')} "-->
     <div class="card" th:each="comentario:${listadoComentarios}" style="margin-top: 10px; margin-bottom: 10px">
         <div class="card-body">
             <span>
-                 <h5 style="display: inline-block;" class="card-title" th:text="${comentario.titulo}"></h5> - @<i th:text="${comentario.usuario.name}"></i>
+                 <h5 style="display: inline-block;" class="card-title" th:text="${comentario.titulo}"></h5> - @<i th:text="${nombreUsuario}"></i>
                  <img src="https://cdn.icon-icons.com/icons2/2760/PNG/512/profile_icon_176363.png" style="width: 40px; float: right"/>
             </span>
             <p class="card-text" th:text="${comentario.contenido}"></p>
             <p class="card-text"><small class="text-body-secondary" th:text="${comentario.fecha}"></small></p>
         </div>
         <!--<img src="th:text=${post.imagen}" class="card-img-bottom" alt="imagen">-->
+        </div>
     </div>
-</div>
-<div th:unless="${listadoComentarios != null and not #lists.isEmpty(listadoComentarios)}">
-    <p class="card-text">Ningún comentario... ¡Se el primero en comentar!</p>
-</div>
+
 </div>
 <!--
 <div th:unless="${#authorization.expression('hasRole(\'EDITOR\')')} || ${#authorization.expression('hasRole(\'ROLE_ADMIN\')')} ">
@@ -86,7 +85,7 @@
 <div class="container" style="width: fit-content; margin-left: 20px; margin-right: 20px">
     <div>
         <form th:action="@{/buscar}" method="post">
-            <input style="display: inline-block" type="search" class="form-control" placeholder="Buscar..." aria-label="Search">
+            <input style="display: inline-block" type="search" name="buscar" class="form-control" placeholder="Buscar..." aria-label="Search">
             <button style="float: right" type="submit"><img src="https://www.systemuicons.com/images/icons/search.svg"/></button>
         </form>
         <!--   VER POST DE LOS USUARIOS  -->

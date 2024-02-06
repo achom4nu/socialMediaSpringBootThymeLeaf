@@ -3,6 +3,7 @@ package com.example.registrationlogindemo.controller;
 import com.example.registrationlogindemo.entity.Comentario;
 import com.example.registrationlogindemo.entity.Post;
 import com.example.registrationlogindemo.entity.User;
+import com.example.registrationlogindemo.repository.UserRepository;
 import com.example.registrationlogindemo.service.impl.ComentarioServiceImpl;
 import com.example.registrationlogindemo.service.impl.PostServiceImpl;
 import com.example.registrationlogindemo.service.impl.UserServiceImpl;
@@ -29,27 +30,36 @@ public class HomeController {
     StorageService storageService;
     @Autowired
     ComentarioServiceImpl comentarioService;
+
+    @Autowired
+    UserRepository userRepository;
     //@Autowired
     //LikeServiceImpl likeService;
     @GetMapping("/inicio")
     public String inicio(Model model, Authentication authentication){
-        model.addAttribute("nombreUsuario", userService.getUserDto(authentication.getName()).getFirstName());
+        model.addAttribute("nombreUsuario", userService.getUserDto( authentication.getName()).getFirstName());
         Post post = new Post();
+
         model.addAttribute("post", post);
+        model.addAttribute("usuario", userService.findByEmail(userService.getUserDto(authentication.getName()).getEmail()));
 
         List<Post> listadoPosts = postService.findAll();
-        if (listadoPosts.isEmpty()) {
-            model.addAttribute("postHay", "No hay ningun post todavía... ¡Se el primero!");
-        } else {
-            model.addAttribute("listadoPosts", listadoPosts);
-        }
+        model.addAttribute("listadoPosts", listadoPosts);
+
+        /*for (Post posts : listadoPosts) {
+            Long numberOfComments = comentarioService.countCommentsByPost(posts);
+            post.setNumberOfComments(numberOfComments);
+        }*/
+
+        //model.addAttribute("posts", listadoPosts);
+
+
+        model.addAttribute("listaUsuarios", userRepository.findAll());
+        System.out.println(userRepository.findAll().get(0).getId());
 
         List<Comentario> listadoComentarios = comentarioService.findAll();
-        if (listadoPosts.isEmpty()) {
-            model.addAttribute("comentarioHay", "No hay ningun post todavía... ¡Se el primero!");
-        } else {
-            model.addAttribute("listadoComentarios", listadoComentarios.size());
-        }
+        model.addAttribute("listadoComentarios", listadoComentarios.size());
+
         return "inicio";
     }
 

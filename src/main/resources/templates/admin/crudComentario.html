@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Comentarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body style="display: flex; justify-content: center">
+
+<div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#person-vcard"/></svg>
+        <span class="fs-4">Pandel de Admin</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a href="/admin/inicio" class="nav-link active" aria-current="page">
+                <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"/></svg>
+                <h5>Inicio</h5>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/comentarios" class="nav-link text-white">
+                <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#chat-left"/></svg>
+                <h5>Admin - Comentario</h5>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/posts" class="nav-link text-white">
+                <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#postcard-heart"/></svg>
+                <h5>Admin - Post</h5>
+            </a>
+        </li>
+        <li>
+            <a href="/inicio" class="nav-link text-white">
+                <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#postcard-heart"/></svg>
+                <h5 class="btn btn-warning">Volver al inicio</h5>
+            </a>
+        </li>
+    </ul>
+    <hr>
+</div>
+
+<div class="container mt-5">
+    <h2>Tabla de Comentarios</h2>
+
+    <!-- Tabla Bootstrap con Thymeleaf -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Contenido</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterar sobre la lista de Posts -->
+        <tr th:each="comentario : ${listaComentarios}">
+            <!-- Mostrar los datos de cada Post -->
+            <td th:text="${comentario.id}"></td>
+            <td th:text="${comentario.titulo}"></td>
+            <td th:text="${#strings.length(comentario.contenido) > 30 ? #strings.substring(comentario.contenido, 0, 30) + '...' : comentario.contenido}"></td>
+            <td th:text="${comentario.fecha}"></td>
+            <!-- Columna de Acciones con botones para eliminar y modificar -->
+            <td>
+                <!-- Botón para eliminar -->
+                <a th:href="@{'/admin/eliminar/comentario/' + ${comentario.id}}" class="btn btn-danger btn-sm">Eliminar</a>
+                <!-- Botón para modificar -->
+                <a th:href="@{'/admin/modificar/comentario/' + ${comentario.id}}" class="btn btn-primary btn-sm">Modificar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+</html>

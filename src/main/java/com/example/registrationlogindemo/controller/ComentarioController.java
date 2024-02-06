@@ -2,6 +2,7 @@ package com.example.registrationlogindemo.controller;
 
 import com.example.registrationlogindemo.entity.Comentario;
 import com.example.registrationlogindemo.entity.Post;
+import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.repository.ComentarioRepository;
 import com.example.registrationlogindemo.repository.PostRepository;
 import com.example.registrationlogindemo.service.ComentarioService;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class ComentarioController {
     @Autowired
@@ -25,22 +28,31 @@ public class ComentarioController {
     UserServiceImpl userService;
     @GetMapping("/post/comentarios/{id}")
     public String comentariosDePost(@PathVariable long id, Model model, Authentication authentication){
+
         Comentario comentario = new Comentario();
         Post post = postService.findById(id);
-        long idPost = post.getId();
 
-        comentario.setPost(post);
-        comentario.setUsuario(userService.findByEmail(userService.getUserDto(authentication.getName()).getEmail()));
+        model.addAttribute("usuario", userService.findByEmail(userService.getUserDto(authentication.getName()).getEmail()));
 
         model.addAttribute("post", post);
         model.addAttribute("comentario", comentario);
-        model.addAttribute("listadoComentarios", comentarioService.obtenerComentariosPorPostId(idPost));
         model.addAttribute("nombreUsuario", userService.getUserDto(authentication.getName()).getFirstName());
+
         return "add-comentario";
     }
 
     @PostMapping("/post/addComentario")
-    public String addComentario(@ModelAttribute Comentario comentario, Model model){
+    public String addComentario(@ModelAttribute Comentario comentario, Model model,
+                                @RequestParam("user") Long userId,
+                                @RequestParam("post") Long postId, Authentication authentication){
+
+        User usuario = userService.findByEmail(userService.getUserDto(authentication.getName()).getEmail());
+        usuario.setId(userId);
+
+        Post post = postService.findById(postId);
+
+        comentario.setUsuario(usuario);
+        comentario.setPost(post);
         comentarioService.save(comentario);
         return "redirect:/inicio";
     }

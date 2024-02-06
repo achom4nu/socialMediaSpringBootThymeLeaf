@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body style="display:flex; justify-content: space-evenly">
+
+<!--   BARRA LATERAL DE NAVEGACIÓN  -->
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; height: 500px; margin-left: 20px; margin-right: 20px">
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a href="/inicio" class="nav-link text-white" aria-current="page">
+                <img src="https://www.systemuicons.com/images/icons/home_door.svg" style="width: 30px"/>
+                <span style="color: black; font-size: large">Home</span>
+            </a>
+        </li>
+        <li>
+            <a href="/tendencias" class="nav-link text-white">
+                <img src="https://www.systemuicons.com/images/icons/flame.svg" style="width: 30px"/>
+                <span style="color: black; font-size: large">Tendencias</span>
+            </a>
+        </li>
+        <li>
+            <a href="/perfil" class="nav-link active">
+                <img src="https://www.systemuicons.com/images/icons/user_male.svg" style="width: 30px"/>
+                <span style="color: black; font-size: large">Perfil</span>
+            </a>
+        </li>
+    </ul>
+    <hr>
+    <a href="/logout" class="btn btn-danger">Cerrar sesión</a>
+</div>
+
+<!--   POSTS Y COMENTARIOS DEL USUARIO    -->
+
+<div style="width: 400px; margin-left: 20px; margin-right: 20px;">
+    <h1 style="marign: 10px">Post de <strong th:text="${usuario.name}"></strong></h1>
+    <div class="container">
+        <img src="https://cdn.icon-icons.com/icons2/2760/PNG/512/profile_icon_176363.png" style="width: 100px; display: block; margin: 10px"/>
+        @<i th:text="${usuario.name}"></i>
+    </div>
+    <hr>
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown button
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" th:href="@'/perfil/posts/' + ${usuario.id}}">Posts</a></li>
+            <li><a class="dropdown-item" th:href="@'/perfil/comentarios/' + ${usuario.id}}">Comentarios</a></li>
+            <li><a class="dropdown-item" th:href="@'/perfil/' + ${usuario.id}}">Ver todo</a></li>
+        </ul>
+    </div>
+    <hr style="width: 100%">
+
+        <!--th:if="${#authorization.expression('hasRole(\'EDITOR\')')} || ${#authorization.expression('hasRole(\'ROLE_ADMIN\')')} "-->
+        <div class="card" th:each="comentario:${listadoComentariosUser}" style="margin-top: 10px; margin-bottom: 10px">
+            <div class="card-body">
+            <span>
+                 <h5 style="display: inline-block;" class="card-title" th:text="${comentario.titulo}"></h5> - @<i th:text="${nombreUsuario}"></i>
+                 <img src="https://cdn.icon-icons.com/icons2/2760/PNG/512/profile_icon_176363.png" style="width: 40px; float: right"/>
+            </span>
+                <p class="card-text" th:text="${comentario.contenido}"></p>
+                <p class="card-text"><small class="text-body-secondary" th:text="${comentario.fecha}"></small></p>
+            </div>
+            <!--<img src="th:text=${post.imagen}" class="card-img-bottom" alt="imagen">-->
+        </div>
+
+
+</div>
+
+</div>
+<!--
+<div th:unless="${#authorization.expression('hasRole(\'EDITOR\')')} || ${#authorization.expression('hasRole(\'ROLE_ADMIN\')')} ">
+    <div>
+        <h2>Tienes que tener el rol de Editor para poder escribir un comentario</h2>
+    </div>
+</div>
+
+
+   BARRA DE BÚSQUEDA  -->
+
+<div class="container" style="width: 350px; margin-left: 20px; margin-right: 20px">
+    <div style="display: flex; justify-content: flex-start">
+        <form th:action="@{/buscar}" method="post" style="display: inline-block">
+            <input style="display: inline-block" type="search" class="form-control" placeholder="Buscar..." aria-label="Search">
+        </form>
+        <button style="float: right" class="btn bt-info" type="submit"><img src="https://www.systemuicons.com/images/icons/search.svg"/></button>
+    </div>
+    <!--   VER POST DE LOS USUARIOS  -->
+
+    <div class="container" style="padding-left: 0">
+        <div class="card">
+            <div class="card-body" th:each="usuario:${listaUsuarios}">
+                <img src="https://cdn.icon-icons.com/icons2/2760/PNG/512/profile_icon_176363.png" style="width: 30px; float: left"/>
+                - @<i th:text="${usuario.name}"></i><!-- Cgoer el firstname del UserDto -->
+                <a th:href="@{'/perfil/' + ${usuario.id}}" style="float: right;" class="btn btn-dark">Ver perfil</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+
+</body>
+</html>

@@ -28,6 +28,11 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    public User findById(long id){
+        return userRepository.findById(id);
+    }
+
+
     @Override
     public void saveUser(UserDto userDto) {
         User user = new User();
