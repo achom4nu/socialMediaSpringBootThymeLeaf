@@ -24,6 +24,7 @@ public class Comentario {
     private String titulo;
     private String imagen;
     private LocalDateTime fecha;
+
     @PrePersist
     protected void onCreate() {
         this.fecha = LocalDateTime.now();

@@ -49,15 +49,15 @@
             Dropdown button
         </button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" th:href="@'/perfil/posts/' + ${usuario.id}}">Posts</a></li>
-            <li><a class="dropdown-item" th:href="@'/perfil/comentarios/' + ${usuario.id}}">Comentarios</a></li>
-            <li><a class="dropdown-item" th:href="@'/perfil/' + ${usuario.id}}">Ver todo</a></li>
+            <li><a class="dropdown-item" th:href="@{'/perfil/posts/' + ${usuario.id}}">Posts</a></li>
+            <li><a class="dropdown-item" th:href="@{'/perfil/comentarios/' + ${usuario.id}}">Comentarios</a></li>
+            <li><a class="dropdown-item" th:href="@{'/perfil/' + ${usuario.id}}">Ver todo</a></li>
         </ul>
     </div>
     <hr style="width: 100%">
 
         <!--th:if="${#authorization.expression('hasRole(\'EDITOR\')')} || ${#authorization.expression('hasRole(\'ROLE_ADMIN\')')} "-->
-        <div class="card" th:each="comentario:${listadoComentariosUser}" style="margin-top: 10px; margin-bottom: 10px">
+      <!--  <div class="card" th:each="comentario:${listadoComentariosUser}" style="margin-top: 10px; margin-bottom: 10px">
             <div class="card-body">
             <span>
                  <h5 style="display: inline-block;" class="card-title" th:text="${comentario.titulo}"></h5> - @<i th:text="${nombreUsuario}"></i>
@@ -66,8 +66,8 @@
                 <p class="card-text" th:text="${comentario.contenido}"></p>
                 <p class="card-text"><small class="text-body-secondary" th:text="${comentario.fecha}"></small></p>
             </div>
-            <!--<img src="th:text=${post.imagen}" class="card-img-bottom" alt="imagen">-->
-        </div>
+            <img src="th:text=${post.imagen}" class="card-img-bottom" alt="imagen">
+        </div>-->
 
 
 </div>

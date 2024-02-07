@@ -2,6 +2,7 @@ package com.example.registrationlogindemo.service.impl;
 
 import com.example.registrationlogindemo.entity.Comentario;
 import com.example.registrationlogindemo.entity.Post;
+import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.repository.ComentarioRepository;
 import com.example.registrationlogindemo.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,12 @@ public class ComentarioServiceImpl {
     /*public Long countCommentsByPost(@Param("post") Post post){
         return comentarioRepository.countCommentsByPost(post);
     }*/
-    public List<Comentario> findComentariosByUsuario(long id){
-        return comentarioRepository.findComentariosByUsuario(id);
+    public List<Comentario> findByUsuario(User user){
+        return comentarioRepository.findByUsuario(user);
     }
+    public void deleteByPost(Post post){
+        comentarioRepository.deleteByPost(post);
+    };
 
 
 }

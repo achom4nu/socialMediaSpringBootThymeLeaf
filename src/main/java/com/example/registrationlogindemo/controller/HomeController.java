@@ -53,9 +53,7 @@ public class HomeController {
 
         //model.addAttribute("posts", listadoPosts);
 
-
         model.addAttribute("listaUsuarios", userRepository.findAll());
-        System.out.println(userRepository.findAll().get(0).getId());
 
         List<Comentario> listadoComentarios = comentarioService.findAll();
         model.addAttribute("listadoComentarios", listadoComentarios.size());

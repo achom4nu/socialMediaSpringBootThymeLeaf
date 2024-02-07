@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 @Service
@@ -32,7 +33,7 @@ public class FileSystemStorageService implements StorageService {
                 throw new StorageException("Error al almacenar el fichero " + file.getOriginalFilename());
             }
             //Le he añadido la fecha y hora actual al archivo subido
-            //nombreFichero=LocalDateTime.now().toString().replaceAll(":", "_") + file.getOriginalFilename();
+            nombreFichero= LocalDateTime.now().toString().replaceAll(":", "_") + file.getOriginalFilename();
             Files.copy(file.getInputStream(), this.rootLocation.resolve(nombreFichero), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new StorageException("Error al almacenar el fichero " + file.getOriginalFilename(), e);

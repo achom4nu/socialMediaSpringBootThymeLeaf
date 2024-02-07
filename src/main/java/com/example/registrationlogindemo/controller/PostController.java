@@ -3,6 +3,7 @@ package com.example.registrationlogindemo.controller;
 import com.example.registrationlogindemo.entity.Comentario;
 import com.example.registrationlogindemo.entity.Post;
 import com.example.registrationlogindemo.entity.User;
+import com.example.registrationlogindemo.repository.UserRepository;
 import com.example.registrationlogindemo.service.impl.ComentarioServiceImpl;
 import com.example.registrationlogindemo.service.impl.PostServiceImpl;
 import com.example.registrationlogindemo.service.impl.UserServiceImpl;
@@ -22,6 +23,8 @@ public class PostController {
     @Autowired
     PostServiceImpl postService;
     @Autowired
+    UserRepository userRepository;
+    @Autowired
     UserServiceImpl userService;
     @Autowired
     StorageService storageService;
@@ -36,6 +39,9 @@ public class PostController {
 
         List<Comentario> listadoComentarios = comentarioService.obtenerComentariosPorPostId(id);
         model.addAttribute("listadoComentarios", listadoComentarios);
+
+        model.addAttribute("listaUsuarios", userRepository.findAll());
+
         return "detalle";
     }
 
@@ -46,7 +52,6 @@ public class PostController {
                           Authentication authentication){
         if (!file.isEmpty()) {
             String imagen = storageService.store(file, String.valueOf(post.getId()));
-            System.out.println("La imagen a guardar es : " + imagen);
             post.setImagen(MvcUriComponentsBuilder
                     .fromMethodName(FileUploadController.class, "serveFile", imagen).build().toUriString());
         }

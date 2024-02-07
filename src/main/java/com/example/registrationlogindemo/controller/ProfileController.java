@@ -7,6 +7,7 @@ import com.example.registrationlogindemo.service.impl.ComentarioServiceImpl;
 import com.example.registrationlogindemo.service.impl.PostServiceImpl;
 import com.example.registrationlogindemo.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +25,11 @@ public class ProfileController {
     ComentarioServiceImpl comentarioService;
     @GetMapping("/perfil/{id}")
     public String perfil(@PathVariable long id, Model model){
-        List<Comentario> listaComentarios = comentarioService.findComentariosByUsuario(id);
-        List<Post> listaPosts = postService.findPostByUserId(id);
+        //Da error porque digo que le paso un long pero Usuario es de tipo User
+        User usuario = userService.findById(id);
+        List<Comentario> listaComentarios = comentarioService.findByUsuario(usuario);
+        List<Post> listaPosts = postService.findByUsuario(usuario);
+
         model.addAttribute("listadoPost", listaPosts);
         model.addAttribute("listadoComentarios", listaComentarios);
 
@@ -34,9 +38,17 @@ public class ProfileController {
         return "perfil";
     }
 
+    @GetMapping("/perfil")
+    public String perfil(Model model, Authentication authentication){
+        User user = userService.findByEmail(userService.getUserDto(authentication.getName()).getEmail());
+
+        return "redirect:/perfil/" + user.getId();
+    }
+
     @GetMapping("/perfil/comentarios/{id}")
     public String mostrarComentarios(@PathVariable long id, Model model){
-        List<Comentario> listaComentarios = comentarioService.findComentariosByUsuario(id);
+        User usuario = userService.findById(id);
+        List<Comentario> listaComentarios = comentarioService.findByUsuario(usuario);
         model.addAttribute("listadoComentariosUser", listaComentarios);
 
         model.addAttribute("usuario", userService.findById(id));
@@ -45,8 +57,9 @@ public class ProfileController {
 
     @GetMapping("/perfil/posts/{id}")
     public String mostrarPosts(@PathVariable long id, Model model){
-        List<Post> listaPosts = postService.findPostByUserId(id);
-        model.addAttribute("listadoPost", listaPosts);
+        User usuario = userService.findById(id);
+        List<Post> listaPosts = postService.findByUsuario(usuario);
+        model.addAttribute("listadoPostUser", listaPosts);
 
         model.addAttribute("usuario", userService.findById(id));
         return "perfil";

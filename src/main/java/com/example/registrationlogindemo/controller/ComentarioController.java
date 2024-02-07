@@ -5,6 +5,7 @@ import com.example.registrationlogindemo.entity.Post;
 import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.repository.ComentarioRepository;
 import com.example.registrationlogindemo.repository.PostRepository;
+import com.example.registrationlogindemo.repository.UserRepository;
 import com.example.registrationlogindemo.service.ComentarioService;
 import com.example.registrationlogindemo.service.PostService;
 import com.example.registrationlogindemo.service.impl.ComentarioServiceImpl;
@@ -25,6 +26,8 @@ public class ComentarioController {
     @Autowired
     PostServiceImpl postService;
     @Autowired
+    UserRepository userRepository;
+    @Autowired
     UserServiceImpl userService;
     @GetMapping("/post/comentarios/{id}")
     public String comentariosDePost(@PathVariable long id, Model model, Authentication authentication){
@@ -38,6 +41,7 @@ public class ComentarioController {
         model.addAttribute("comentario", comentario);
         model.addAttribute("nombreUsuario", userService.getUserDto(authentication.getName()).getFirstName());
 
+        model.addAttribute("listaUsuarios", userRepository.findAll());
         return "add-comentario";
     }
 

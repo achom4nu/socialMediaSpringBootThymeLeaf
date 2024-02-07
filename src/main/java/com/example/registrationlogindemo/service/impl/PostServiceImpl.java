@@ -1,6 +1,7 @@
 package com.example.registrationlogindemo.service.impl;
 
 import com.example.registrationlogindemo.entity.Post;
+import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,10 @@ public class PostServiceImpl {
     public void deleteById(long id){
         postRepository.deleteById(id);
     }
-    public List<Post> findPostByUserId(long id){
-        return postRepository.findPostByUserId(id);
+    public List<Post> findByUsuario(User user){
+        return postRepository.findByUsuario(user);
     }
-
+    /*public int countComentariosByPost(Post post){
+        return postRepository.countComentariosByPost(post);
+    }*/
 }

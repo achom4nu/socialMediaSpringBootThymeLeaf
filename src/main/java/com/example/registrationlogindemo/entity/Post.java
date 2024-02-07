@@ -32,7 +32,7 @@ public class Post {
 
     private LocalDateTime fecha;
 
-    private Long numberOfComments;
+    //private int numeroComentarios;
     @PrePersist
     protected void onCreate() {
         this.fecha = LocalDateTime.now();
@@ -44,7 +44,7 @@ public class Post {
     @JoinColumn(name = "usuario_id")
     private User usuario;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "comentarios_post")
     private List<Comentario> comentarios = new ArrayList<>() ;
 }

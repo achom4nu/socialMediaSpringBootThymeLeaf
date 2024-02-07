@@ -38,10 +38,10 @@
 <!--   CREAR POST     -->
 
 <div style="width: 400px; margin-left: 20px; margin-right: 20px;">
-    <!--th:if="${#authorization.expression('hasRole(\'EDITOR\')')} || ${#authorization.expression('hasRole(\'ROLE_ADMIN\')')} "-->
+    <!--<div th:if="${not #authorization.hasRole('LECTOR')}">-->
     <h1 class="mb-4">Añadir Nuevo Post</h1>
 
-    <form th:action="@{/post/add}" th:object="${post}" th:method="post"  >
+    <form th:action="@{/post/add}" th:object="${post}" th:method="post" enctype="multipart/form-data" >
         <!--<input type="hidden" th:field="*{id}"/>-->
         <!-- Campo Nombre -->
         <div class="mb-3">
@@ -67,6 +67,7 @@
         <!-- Botón de Enviar -->
         <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
+
 
     <!-- LISTADO DE POSTS -->
 

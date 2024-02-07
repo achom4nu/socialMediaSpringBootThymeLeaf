@@ -36,10 +36,9 @@ public class PostCRUDController {
     @GetMapping("/admin/eliminar/post/{id}")
     public String eliminar(@PathVariable long id){
         Post post = postService.findById(id);
-
-
-        post.getComentarios().clear();
-        postService.save(post);
+       // post.getComentarios().clear();
+        comentarioService.deleteByPost(post);
+        //postService.save(post);
         postService.deleteById(id);
         return "redirect:/admin/posts";
     }

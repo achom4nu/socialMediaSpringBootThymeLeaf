@@ -43,9 +43,9 @@
                  <h5 style="display: inline-block; font-size: x-large" class="card-title" th:text="${post.titulo}"></h5> - @<i th:text="${nombreUsuario}"></i>
                  <img src="https://cdn.icon-icons.com/icons2/2760/PNG/512/profile_icon_176363.png" style="width: 60px; float: right"/>
             </span>
-            <p class="card-text" style="font-size: large" th:text="${post.contenido}"></p>
+            <p class="card-text" style="font-size: large; max-width: 500px" th:text="${post.contenido}"></p>
             <p class="card-text"><small class="text-body-secondary" th:text="${post.fecha}"></small></p>
-            <img th:if="${post.imagen} != null" th:src="${post.imagen}" class="card-img-bottom" alt="imagen">
+            <img th:if="${post.imagen} != null" th:src="${post.imagen}" class="card-img-bottom" alt="imagen" style="max-width: 500px">
             <div style="display: flex; justify-content: space-evenly; float: bottom">
                 <a th:href="@{'/post/comentarios/' + ${post.id}}"><img src="https://www.systemuicons.com/images/icons/chat_add.svg"/></a>
                 <a><img src="https://www.systemuicons.com/images/icons/heart.svg"/></a>
@@ -82,15 +82,22 @@
 
    BARRA DE BÚSQUEDA  -->
 
-<div class="container" style="width: fit-content; margin-left: 20px; margin-right: 20px">
-    <div>
-        <form th:action="@{/buscar}" method="post">
-            <input style="display: inline-block" type="search" name="buscar" class="form-control" placeholder="Buscar..." aria-label="Search">
-            <button style="float: right" type="submit"><img src="https://www.systemuicons.com/images/icons/search.svg"/></button>
+<div class="container" style="width: 350px; margin-left: 20px; margin-right: 20px">
+    <div style="display: flex; justify-content: flex-start">
+        <form th:action="@{/buscar}" method="post" style="display: inline-block">
+            <input style="display: inline-block" type="search" class="form-control" placeholder="Buscar..." aria-label="Search">
         </form>
-        <!--   VER POST DE LOS USUARIOS  -->
-        <div class="container">
-            <h2>Usuarios a seguir</h2>
+        <button style="float: right" class="btn bt-info" type="submit"><img src="https://www.systemuicons.com/images/icons/search.svg"/></button>
+    </div>
+    <!--   VER POST DE LOS USUARIOS  -->
+
+    <div class="container" style="padding-left: 0">
+        <div class="card">
+            <div class="card-body" th:each="usuario:${listaUsuarios}">
+                <img src="https://cdn.icon-icons.com/icons2/2760/PNG/512/profile_icon_176363.png" style="width: 30px; float: left"/>
+                - @<i th:text="${usuario.name}"></i><!-- Cgoer el firstname del UserDto -->
+                <a th:href="@{'/perfil/' + ${usuario.id}}" style="float: right;" class="btn btn-dark">Ver perfil</a>
+            </div>
         </div>
     </div>
 </div>
