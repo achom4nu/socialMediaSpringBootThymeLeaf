@@ -23,4 +23,6 @@ public interface ComentarioRepository extends JpaRepository<Comentario, Long> {
     @Transactional
     @Query("DELETE FROM Comentario c WHERE c.post = :post")
     void deleteByPost(@Param("post") Post post);
+    @Query("SELECT c FROM Comentario c WHERE LOWER(c.contenido) LIKE LOWER(CONCAT('%', :palabraBusqueda, '%'))")
+    List<Comentario> findByPalabraBusqueda(@Param("palabraBusqueda") String palabraBusqueda);
 }

@@ -3,6 +3,7 @@ package com.example.registrationlogindemo.controller;
 import com.example.registrationlogindemo.entity.Comentario;
 import com.example.registrationlogindemo.entity.Post;
 import com.example.registrationlogindemo.entity.User;
+import com.example.registrationlogindemo.repository.UserRepository;
 import com.example.registrationlogindemo.service.impl.ComentarioServiceImpl;
 import com.example.registrationlogindemo.service.impl.PostServiceImpl;
 import com.example.registrationlogindemo.service.impl.UserServiceImpl;
@@ -22,6 +23,8 @@ public class ProfileController {
     @Autowired
     PostServiceImpl postService;
     @Autowired
+    UserRepository userRepository;
+    @Autowired
     ComentarioServiceImpl comentarioService;
     @GetMapping("/perfil/{id}")
     public String perfil(@PathVariable long id, Model model){
@@ -32,8 +35,9 @@ public class ProfileController {
 
         model.addAttribute("listadoPost", listaPosts);
         model.addAttribute("listadoComentarios", listaComentarios);
+        model.addAttribute("listaUsuarios", userRepository.findAll());
 
-        model.addAttribute("usuario", userService.findById(id));
+        model.addAttribute("usuario", usuario);
 
         return "perfil";
     }
@@ -49,7 +53,8 @@ public class ProfileController {
     public String mostrarComentarios(@PathVariable long id, Model model){
         User usuario = userService.findById(id);
         List<Comentario> listaComentarios = comentarioService.findByUsuario(usuario);
-        model.addAttribute("listadoComentariosUser", listaComentarios);
+        model.addAttribute("listadoComentarios", listaComentarios);
+        model.addAttribute("listaUsuarios", userRepository.findAll());
 
         model.addAttribute("usuario", userService.findById(id));
         return "perfil";
@@ -59,7 +64,8 @@ public class ProfileController {
     public String mostrarPosts(@PathVariable long id, Model model){
         User usuario = userService.findById(id);
         List<Post> listaPosts = postService.findByUsuario(usuario);
-        model.addAttribute("listadoPostUser", listaPosts);
+        model.addAttribute("listadoPost", listaPosts);
+        model.addAttribute("listaUsuarios", userRepository.findAll());
 
         model.addAttribute("usuario", userService.findById(id));
         return "perfil";

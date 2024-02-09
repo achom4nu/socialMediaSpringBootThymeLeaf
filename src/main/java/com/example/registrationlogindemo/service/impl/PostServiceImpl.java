@@ -30,4 +30,7 @@ public class PostServiceImpl {
     /*public int countComentariosByPost(Post post){
         return postRepository.countComentariosByPost(post);
     }*/
+    public List<Post> buscarPostsPorPalabra(String palabraBusqueda) {
+        return postRepository.findByPalabraBusqueda(palabraBusqueda);
+    }
 }

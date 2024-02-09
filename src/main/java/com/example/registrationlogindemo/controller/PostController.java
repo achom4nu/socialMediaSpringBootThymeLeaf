@@ -34,7 +34,8 @@ public class PostController {
     public String detalle(@PathVariable long id, Model model, Authentication authentication){
         Post post = new Post();
         post = postService.findById(id);
-        model.addAttribute("nombreUsuario", userService.getUserDto(authentication.getName()).getFirstName());
+
+        model.addAttribute("nombreUsuario", post.getUsuario().getName());
         model.addAttribute("post", post);
 
         List<Comentario> listadoComentarios = comentarioService.obtenerComentariosPorPostId(id);

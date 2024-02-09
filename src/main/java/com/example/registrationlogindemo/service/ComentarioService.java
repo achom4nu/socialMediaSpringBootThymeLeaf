@@ -16,4 +16,5 @@ public interface ComentarioService {
     List<Comentario> obtenerComentariosPorPostId(long id);
     List<Comentario> findByUsuario(User user);
     void deleteByPost(Post post);
+    List<Comentario> buscarPostsPorPalabra(String palabraBusqueda);
 }

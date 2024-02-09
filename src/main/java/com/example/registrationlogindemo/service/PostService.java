@@ -15,4 +15,5 @@ public interface PostService {
     void deleteById(long id);
     List<Post> findByUsuario(User user);
     /*int countComentariosByPost(Post post);*/
+    List<Post> buscarPostsPorPalabra(String palabraBusqueda);
 }

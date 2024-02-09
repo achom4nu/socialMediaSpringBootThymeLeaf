@@ -39,18 +39,12 @@
 </head>
 <body style="background-color: #f0f0f0;">
 <div class="background-content">
-    <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; height: 500px; margin-left: 20px; margin-right: 20px">
+    <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; height: 200px; margin-left: 20px; margin-right: 20px">
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
                 <a href="/inicio" class="nav-link active" aria-current="page">
                     <img src="https://www.systemuicons.com/images/icons/home_door.svg" style="width: 30px"/>
                     <span style="color: black; font-size: large">Home</span>
-                </a>
-            </li>
-            <li>
-                <a href="/tendencias" class="nav-link text-white">
-                    <img src="https://www.systemuicons.com/images/icons/flame.svg" style="width: 30px"/>
-                    <span style="color: black; font-size: large">Tendencias</span>
                 </a>
             </li>
             <li>
@@ -129,15 +123,22 @@
 
        BARRA DE BÚSQUEDA  -->
 
-    <div class="container" style="width: fit-content; margin-left: 20px; margin-right: 20px">
-        <div>
-            <form th:action="@{/buscar}" method="post">
-                <input style="display: inline-block" type="search" class="form-control" placeholder="Buscar..." aria-label="Search">
-                <button style="float: right" type="submit"><img src="https://www.systemuicons.com/images/icons/search.svg"/></button>
+    <div class="container" style="width: 350px; margin-left: 20px; margin-right: 20px">
+        <div style="display: flex; align-items: center;">
+            <form th:action="@{/buscar}" method="post" style="display: flex; margin-right: 10px; margin-bottom: 20px">
+                <input type="search" class="form-control" name="palabraABuscar" placeholder="Buscar..." aria-label="Search">
+                <button style="margin-left: 5px" class="btn btn-info" type="submit"><img src="https://www.systemuicons.com/images/icons/search.svg" /></button>
             </form>
-            <!--   VER POST DE LOS USUARIOS  -->
-            <div class="container">
-                <h2>Usuarios a seguir</h2>
+        </div>
+        <!--   VER POST DE LOS USUARIOS  -->
+
+        <div class="container" style="padding-left: 0">
+            <div class="card">
+                <div class="card-body" th:each="usuario:${listaUsuarios}">
+                    <img src="https://cdn.icon-icons.com/icons2/2760/PNG/512/profile_icon_176363.png" style="width: 30px; float: left"/>
+                    - @<i th:text="${usuario.name}"></i><!-- Cgoer el firstname del UserDto -->
+                    <a th:href="@{'/perfil/' + ${usuario.id}}" style="float: right;" class="btn btn-dark">Ver perfil</a>
+                </div>
             </div>
         </div>
     </div>

@@ -10,18 +10,12 @@
 <body style="display:flex; justify-content: space-evenly">
 
 <!--   BARRA LATERAL DE NAVEGACIÓN  -->
-<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; height: 500px; margin-left: 20px; margin-right: 20px">
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; height: 200px; margin-left: 20px; margin-right: 20px">
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
             <a href="/inicio" class="nav-link active" aria-current="page">
                 <img src="https://www.systemuicons.com/images/icons/home_door.svg" style="width: 30px"/>
                 <span style="color: black; font-size: large">Home</span>
-            </a>
-        </li>
-        <li>
-            <a href="/tendencias" class="nav-link text-white">
-                <img src="https://www.systemuicons.com/images/icons/flame.svg" style="width: 30px"/>
-                <span style="color: black; font-size: large">Tendencias</span>
             </a>
         </li>
         <li>
@@ -39,9 +33,8 @@
 
 <div style="width: 400px; margin-left: 20px; margin-right: 20px;">
     <!--<div th:if="${not #authorization.hasRole('LECTOR')}">-->
-    <h1 class="mb-4">Añadir Nuevo Post</h1>
 
-    <form th:action="@{/post/add}" th:object="${post}" th:method="post" enctype="multipart/form-data" >
+    <form th:action="@{/post/add}" th:object="${post}" th:method="post" enctype="multipart/form-data">
         <!--<input type="hidden" th:field="*{id}"/>-->
         <!-- Campo Nombre -->
         <div class="mb-3">
@@ -68,23 +61,22 @@
         <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
 
-
     <!-- LISTADO DE POSTS -->
 
     <div th:if="${listadoPosts != null and not #lists.isEmpty(listadoPosts)}" class="card" th:each="post:${listadoPosts}" style="margin-top: 10px; margin-bottom: 10px">
         <a th:href="@{'/post/detalle/' + ${post.id}}" style="text-decoration: none; color: black">
         <div class="card-body">
             <span>
-                 <h5 style="display: inline-block;" class="card-title" th:text="${post.titulo}"></h5> - @<i th:text="${nombreUsuario}"></i>
+                 <h5 style="display: inline-block;" class="card-title" th:text="${post.titulo}"></h5> - @<i th:text="${post.usuario.name}"></i>
                  <img src="https://cdn.icon-icons.com/icons2/2760/PNG/512/profile_icon_176363.png" style="width: 40px; float: right"/>
             </span>
-            <p class="card-text" th:text="${post.contenido}"></p>
+            <p class="card-text" th:text="${#strings.length(post.contenido) > 80 ? #strings.substring(post.contenido, 0, 80) + '...' : post.contenido}"></p>
+            <a th:href="@{'/post/detalle/' + ${post.id}}" th:if="${#strings.length(post.contenido) > 80}">Ver más...</a>
             <p class="card-text"><small class="text-body-secondary" th:text="${post.fecha}"></small></p>
             <img th:if="${post.imagen} != null" th:src="${post.imagen}" class="card-img-bottom" alt="imagen">
             <div style="display: flex; justify-content: space-evenly">
                 <div>
                     <a style="text-decoration: none" th:href="@{'/post/comentarios/' + ${post.id}}"><img src="https://www.systemuicons.com/images/icons/chat_add.svg"/></a>
-                    <h6 style="display: inline-block; float: right; align-items: center" th:text="${listadoComentarios}"></h6>
                 </div>
                 <a style="text-decoration: none"><img src="https://www.systemuicons.com/images/icons/heart.svg"/><h6 style="display: inline-block"></h6></a>
             </div>
@@ -108,11 +100,11 @@
    BARRA DE BÚSQUEDA  -->
 
 <div class="container" style="width: 350px; margin-left: 20px; margin-right: 20px">
-    <div style="display: flex; justify-content: flex-start">
-        <form th:action="@{/buscar}" method="post" style="display: inline-block">
-            <input style="display: inline-block" type="search" class="form-control" placeholder="Buscar..." aria-label="Search">
+    <div style="display: flex; align-items: center;">
+        <form th:action="@{/buscar}" method="post" style="display: flex; margin-right: 10px; margin-bottom: 20px">
+            <input type="search" class="form-control" name="palabraABuscar" placeholder="Buscar..." aria-label="Search">
+            <button style="margin-left: 5px" class="btn btn-info" type="submit"><img src="https://www.systemuicons.com/images/icons/search.svg" /></button>
         </form>
-        <button style="float: right" class="btn bt-info" type="submit"><img src="https://www.systemuicons.com/images/icons/search.svg"/></button>
     </div>
         <!--   VER POST DE LOS USUARIOS  -->
 

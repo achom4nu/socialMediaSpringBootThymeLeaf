@@ -10,18 +10,12 @@
 <body style="display:flex; justify-content: space-evenly">
 
 <!--   BARRA LATERAL DE NAVEGACIÓN  -->
-<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; height: 500px; margin-left: 20px; margin-right: 20px">
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; height: 200px; margin-left: 20px; margin-right: 20px">
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
             <a href="/inicio" class="nav-link active" aria-current="page">
                 <img src="https://www.systemuicons.com/images/icons/home_door.svg"/>
                 <span style="color: black">Home</span>
-            </a>
-        </li>
-        <li>
-            <a href="/tendencias" class="nav-link text-white">
-                <img src="https://www.systemuicons.com/images/icons/flame.svg"/>
-                <span style="color: black">Tendencias</span>
             </a>
         </li>
         <li>
@@ -38,7 +32,7 @@
 <!--   POST     -->
 <div style="display: flex; flex-direction: column; align-items: center;">
 <div class="card" style="margin-top: 15px">
-        <div class="card-body">
+        <div class="card-body" style="min-width: 300px">
             <span>
                  <h5 style="display: inline-block; font-size: x-large" class="card-title" th:text="${post.titulo}"></h5> - @<i th:text="${nombreUsuario}"></i>
                  <img src="https://cdn.icon-icons.com/icons2/2760/PNG/512/profile_icon_176363.png" style="width: 60px; float: right"/>
@@ -54,6 +48,7 @@
         <!--<img src="th:text=${post.imagen}" class="card-img-bottom" alt="imagen">-->
 
 </div>
+
 <!--   LISTADO COMENTARIOS DEL POST     -->
 
 <div style="width: 400px; margin-left: 20px; margin-right: 20px">
@@ -61,13 +56,15 @@
     <div class="card" th:each="comentario:${listadoComentarios}" style="margin-top: 10px; margin-bottom: 10px">
         <div class="card-body">
             <span>
-                 <h5 style="display: inline-block;" class="card-title" th:text="${comentario.titulo}"></h5> - @<i th:text="${nombreUsuario}"></i>
+                 <h5 style="display: inline-block;" class="card-title" th:text="${comentario.titulo}"></h5> - @<i th:text="${comentario.usuario.name}"></i>
                  <img src="https://cdn.icon-icons.com/icons2/2760/PNG/512/profile_icon_176363.png" style="width: 40px; float: right"/>
             </span>
             <p class="card-text" th:text="${comentario.contenido}"></p>
             <p class="card-text"><small class="text-body-secondary" th:text="${comentario.fecha}"></small></p>
+            <p style="color: #6380F4">En respuesta a <small th:text="${nombreUsuario}"></small></p>
         </div>
         <!--<img src="th:text=${post.imagen}" class="card-img-bottom" alt="imagen">-->
+
         </div>
     </div>
 
@@ -83,11 +80,11 @@
    BARRA DE BÚSQUEDA  -->
 
 <div class="container" style="width: 350px; margin-left: 20px; margin-right: 20px">
-    <div style="display: flex; justify-content: flex-start">
-        <form th:action="@{/buscar}" method="post" style="display: inline-block">
-            <input style="display: inline-block" type="search" class="form-control" placeholder="Buscar..." aria-label="Search">
+    <div style="display: flex; align-items: center;">
+        <form th:action="@{/buscar}" method="post" style="display: flex; margin-right: 10px; margin-bottom: 20px">
+            <input type="search" class="form-control" name="palabraABuscar" placeholder="Buscar..." aria-label="Search">
+            <button style="margin-left: 5px" class="btn btn-info" type="submit"><img src="https://www.systemuicons.com/images/icons/search.svg" /></button>
         </form>
-        <button style="float: right" class="btn bt-info" type="submit"><img src="https://www.systemuicons.com/images/icons/search.svg"/></button>
     </div>
     <!--   VER POST DE LOS USUARIOS  -->
 

@@ -37,28 +37,35 @@ public class HomeController {
     //LikeServiceImpl likeService;
     @GetMapping("/inicio")
     public String inicio(Model model, Authentication authentication){
-        model.addAttribute("nombreUsuario", userService.getUserDto( authentication.getName()).getFirstName());
         Post post = new Post();
+        model.addAttribute("nombreUsuario", userService.getUserDto( authentication.getName()).getFirstName());
+        User user = userService.findByEmail(userService.getUserDto(authentication.getName()).getEmail());
 
         model.addAttribute("post", post);
-        model.addAttribute("usuario", userService.findByEmail(userService.getUserDto(authentication.getName()).getEmail()));
+        model.addAttribute("usuario", user);
 
         List<Post> listadoPosts = postService.findAll();
         model.addAttribute("listadoPosts", listadoPosts);
-
-        /*for (Post posts : listadoPosts) {
-            Long numberOfComments = comentarioService.countCommentsByPost(posts);
-            post.setNumberOfComments(numberOfComments);
-        }*/
-
-        //model.addAttribute("posts", listadoPosts);
-
+        
         model.addAttribute("listaUsuarios", userRepository.findAll());
 
         List<Comentario> listadoComentarios = comentarioService.findAll();
         model.addAttribute("listadoComentarios", listadoComentarios.size());
 
         return "inicio";
+    }
+
+    @PostMapping("/buscar")
+    public String buscar(@RequestParam String palabraABuscar, Model model){
+        List<Post> postsEncontrados = postService.buscarPostsPorPalabra(palabraABuscar);
+        model.addAttribute("listadoPosts", postsEncontrados);
+
+        List<Comentario> comentariosEncontrados = comentarioService.buscarPostsPorPalabra(palabraABuscar);
+        model.addAttribute("listadoComentarios", comentariosEncontrados);
+
+        model.addAttribute("listaUsuarios", userRepository.findAll());
+
+        return "buscar";
     }
 
 

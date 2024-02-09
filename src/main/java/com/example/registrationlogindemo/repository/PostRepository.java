@@ -17,4 +17,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     /*@Query("SELECT COUNT(c) FROM Comentario c WHERE c.post = :post")
     int countComentariosByPost(@Param("post") Post post);*/
+    @Query("SELECT p FROM Post p WHERE LOWER(p.contenido) LIKE LOWER(CONCAT('%', :palabraBusqueda, '%'))")
+    List<Post> findByPalabraBusqueda(@Param("palabraBusqueda") String palabraBusqueda);
 }

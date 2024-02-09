@@ -42,6 +42,9 @@ public class ComentarioServiceImpl {
     public void deleteByPost(Post post){
         comentarioRepository.deleteByPost(post);
     };
+    public List<Comentario> buscarPostsPorPalabra(String palabraBusqueda) {
+        return comentarioRepository.findByPalabraBusqueda(palabraBusqueda);
+    }
 
 
 }
